@@ -6,10 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import view.Jsp;
 
 
 @EnableWebMvc
@@ -19,16 +22,16 @@ import org.springframework.web.servlet.view.JstlView;
 ////        includeFilters= { @ComponentScan.Filter(type=FilterType.ANNOTATION)},
 ////        useDefaultFilters = false
 //)  //禁用默认的过虑规则
-@ComponentScan(value = "controller",basePackages = {"bean","controller","exception"})
-
+@ComponentScan(basePackages = {"bean", "controller", "exception","service"})
+@EnableAsync
 @Configuration
-
-public class AppConfig  extends WebMvcConfigurerAdapter{
+@EnableScheduling
+public class AppConfig extends WebMvcConfigurerAdapter {
     @Value("${com.dudu.name}")
-    private  String name;
+    private String name;
 
     public AppConfig() {
-        System.out.println("自定义配置文件初始化..."+name);
+        System.out.println("自定义配置文件初始化..." + name);
     }
 
 //    @Bean
@@ -36,16 +39,18 @@ public class AppConfig  extends WebMvcConfigurerAdapter{
 //        InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
 //        internalResourceViewResolver.setPrefix("/WEB-INF/classes/view/");
 //        internalResourceViewResolver.setSuffix(".jsp");
-//        internalResourceViewResolver.setOrder(1);
-////        internalResourceViewResolver.setViewClass(JstlView.class);
+//        internalResourceViewResolver.setCache(false);
+//        internalResourceViewResolver.setOrder(100);
+//        internalResourceViewResolver.setViewClass(Jsp.class);
+////        internalResourceViewResolver.setViewNames("**/test/**");
 //        internalResourceViewResolver.setExposeContextBeansAsAttributes(true);
 //        return internalResourceViewResolver;
 //    }
 
 
     @Bean
-    public DemoInterceptor demoInterceptor(){
-        return  new DemoInterceptor();
+    public DemoInterceptor demoInterceptor() {
+        return new DemoInterceptor();
     }
 
     @Override
@@ -53,7 +58,7 @@ public class AppConfig  extends WebMvcConfigurerAdapter{
         registry.addInterceptor(demoInterceptor());
     }
 
-    //    @Override
+//    @Override
 //    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 //        configurer.enable();
 //    }
@@ -69,7 +74,9 @@ public class AppConfig  extends WebMvcConfigurerAdapter{
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/test").setViewName("/test");
+        registry.addViewController("/").setViewName("redirect:/message/index");
     }
+
+
 
 }

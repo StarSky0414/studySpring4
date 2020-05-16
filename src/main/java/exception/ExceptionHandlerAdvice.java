@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  *  全局异常
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(value = Exception.class)

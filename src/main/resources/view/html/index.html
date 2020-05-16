@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>消息发送测试</title>
 </head>
 <body>
-    <form >
-        <input>
-        <button>
-            发送
-        </button>
-    </form>
+Hello
+<form action="#" th:action="@{/message/send}" th:object="${message}" method="get">
+    <!--/*@thymesVar id="message" type="bean"*/-->
+    <input type="text"  th:field="*{messageInfo}">
+    <input type="submit"/>
+    <!--    <button>-->
+    <!--        发送-->
+    <!--    </button>-->
+</form>
 </body>
 </html>

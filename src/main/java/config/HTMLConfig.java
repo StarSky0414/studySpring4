@@ -19,6 +19,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+import view.HtmlView;
 
 @EnableWebMvc
 @Configuration
@@ -34,6 +35,7 @@ public class HTMLConfig extends WebMvcConfigurerAdapter {
         ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
         thymeleafViewResolver.setTemplateEngine(templateEngine);
         thymeleafViewResolver.setContentType("text/html;charset=utf-8");
+        thymeleafViewResolver.setOrder(1);
         return thymeleafViewResolver;
     }
 
@@ -48,6 +50,7 @@ public class HTMLConfig extends WebMvcConfigurerAdapter {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setPrefix("/WEB-INF/classes/view/html/");
         templateResolver.setSuffix(".html");
+        templateResolver.setOrder(10);
         templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }

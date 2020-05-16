@@ -11,19 +11,22 @@ public class HelloController {
         System.out.println("====================================");
     }
 
-    @RequestMapping("/")
-    public String hello(){
-        return "index";
-    }
+//    @RequestMapping("/")
+//    public String hello(){
+//
+//        return "main";
+//    }
 
-    @RequestMapping("/1")
+    @RequestMapping("/test/1")
     public String hello11(){
         return "test";
     }
 
-    @RequestMapping(value = "/send")
+    @RequestMapping(value = "/test/send")
     public ModelAndView sendMessageView(){
 //        return "index.html";
-        return new ModelAndView("index");
+        ModelAndView index = new ModelAndView("index");
+        index.setViewName("test/send");
+        return index;
     }
 }

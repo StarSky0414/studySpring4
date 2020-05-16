@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +33,18 @@ public class Producter {
         }
     }
 
-    public void publishMessage(String message) throws IOException {
+    public void publishMessage(String message) throws IOException, TimeoutException {
+        if (connection == null){
+            init();
+        }
+
         Channel channel = connection.createChannel();
         channel.exchangeDeclare(MQConfig.EXCHANGE_NAME,"direct",true,false,null);
         channel.queueDeclare(MQConfig.QUEUE_NAME,true,false,false,null);
         channel.queueBind(MQConfig.QUEUE_NAME,MQConfig.EXCHANGE_NAME,MQConfig.ROUTING_KEY);
         // 将队列设置为持久化之后，还需要将消息也设为可持久化的，MessageProperties.PERSISTENT_TEXT_PLAIN
-        channel.basicPublish(message,MQConfig.ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes());
+        channel.basicPublish(MQConfig.EXCHANGE_NAME,MQConfig.ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes());
+        channel.close();
     }
 
 

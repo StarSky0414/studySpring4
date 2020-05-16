@@ -28,8 +28,16 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.1.5.RELEASE</version>
+            <version>4.3.25.RELEASE</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>4.3.25.RELEASE</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
         <dependency>
@@ -54,12 +62,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>4.1.5.RELEASE</version>
-        </dependency>
 
 
         <dependency>
@@ -78,20 +80,20 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.6.1</version>
+            <version>2.10.3</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.6.1</version>
+            <version>2.10.3</version>
         </dependency>
 
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.10.4</version>
+            <version>2.10.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -150,6 +152,9 @@
             <artifactId>thymeleaf-spring4</artifactId>
             <version>3.0.9.RELEASE</version>
         </dependency>
+
+
+
 
     </dependencies>
 
