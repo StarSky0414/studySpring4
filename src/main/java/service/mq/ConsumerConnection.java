@@ -3,13 +3,9 @@ package service.mq;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DefaultConsumer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,12 +20,13 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class ConsumerConnection {
 
-//    @Autowired
-//    private ConsumerConfig consumerConfig;
+    @Autowired
+    private MyConsumer myConsumer;
 
     private Connection connection;
 
     public static final Logger logger = Logger.getLogger(ConsumerConnection.class);
+    private Channel channel;
 
     @PostConstruct
     public void init() {
@@ -57,21 +54,27 @@ public class ConsumerConnection {
 //    @Scheduled(fixedRate = 60000)
 //    @Async
     public void getChannelMessageAuto() {
-        Channel channel = null;
+        channel = null;
         try {
             channel = connection.createChannel();
             channel.basicQos(64);
+            channel.basicConsume(MQConfig.QUEUE_NAME,myConsumer);
         } catch (IOException e) {
             e.printStackTrace();
         }
         logger.info("RabbitMQ消费者获取1个信道，开始监听");
 
-        ConsumerConfig consumerConfig = new ConsumerConfig(channel);
-        consumerConfig.getConsumerMessage();
+//        ConsumerConfig consumerConfig = new ConsumerConfig(channel);
+//        consumerConfig.getConsumerMessage();
+    }
+
+    @Bean
+    Channel getChannel(){
+        return channel;
     }
 
     public List<String> getChannelMessage(){
-        List<String> consumerMessageLis = ConsumerConfig.getConsumerMessageList();
+        List<String> consumerMessageLis = MyConsumer.getConsumerMessageList();
         return consumerMessageLis;
     }
 }

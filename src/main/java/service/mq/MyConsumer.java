@@ -5,45 +5,25 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.ejb.Schedule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+
 import org.slf4j.Logger;
 
-//@Service
-//@Scope("prototype")
-public class ConsumerConfig extends DefaultConsumer  {
+@Service
+public class MyConsumer extends DefaultConsumer  {
 
-//    @Autowired
-//    ConsumerConnection consumerConnection;
-//
     private static List<String> consumerMessageList = new ArrayList<>();
-    private static Logger logger = LoggerFactory.getLogger(ConsumerConfig.class);
-
+    private static Logger logger = LoggerFactory.getLogger(MyConsumer.class);
     private Channel channel;
 
-    public ConsumerConfig(Channel channel) {
+    public MyConsumer(Channel channel) {
         super(channel);
         this.channel = channel;
-    }
-
-    public void getConsumerMessage(){
-        try {
-            channel.basicConsume(MQConfig.QUEUE_NAME,this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//            TimeUnit.SECONDS.sleep(5);
-//            channel.close();
-
     }
 
     @Override

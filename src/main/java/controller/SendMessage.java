@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import service.mq.ConsumerConfig;
 import service.mq.ConsumerConnection;
 import service.mq.Producter;
 
