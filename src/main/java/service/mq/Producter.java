@@ -12,13 +12,16 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * 生产者
+ */
 @Service
 public class Producter {
 
     private Connection connection;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost(MQConfig.IP);
         connectionFactory.setPort(MQConfig.PORT);
@@ -34,16 +37,19 @@ public class Producter {
     }
 
     public void publishMessage(String message) throws IOException, TimeoutException {
-        if (connection == null){
+        if (connection == null) {
             init();
         }
 
         Channel channel = connection.createChannel();
-        channel.exchangeDeclare(MQConfig.EXCHANGE_NAME,"direct",true,false,null);
-        channel.queueDeclare(MQConfig.QUEUE_NAME,true,false,false,null);
-        channel.queueBind(MQConfig.QUEUE_NAME,MQConfig.EXCHANGE_NAME,MQConfig.ROUTING_KEY);
+        // 创建一个交换器
+        channel.exchangeDeclare(MQConfig.EXCHANGE_NAME, "direct", true, false, null);
+        // 创建一个队列
+        channel.queueDeclare(MQConfig.QUEUE_NAME, true, false, false, null);
+        // 绑定交换器与队列
+        channel.queueBind(MQConfig.QUEUE_NAME, MQConfig.EXCHANGE_NAME, MQConfig.ROUTING_KEY);
         // 将队列设置为持久化之后，还需要将消息也设为可持久化的，MessageProperties.PERSISTENT_TEXT_PLAIN
-        channel.basicPublish(MQConfig.EXCHANGE_NAME,MQConfig.ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes());
+        channel.basicPublish(MQConfig.EXCHANGE_NAME, MQConfig.ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         channel.close();
     }
 

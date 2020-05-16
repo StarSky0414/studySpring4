@@ -1,5 +1,8 @@
 package service.mq;
 
+/**
+ *  mq的参数设定
+ */
 public class MQConfig {
     public static String IP = "luojunyuan.com";
     public static String EXCHANGE_NAME = "exchange_name";

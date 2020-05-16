@@ -14,20 +14,20 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 /**
- * 消费者
+ * 消费者 进行信道连接
  */
 
 @Service
 public class ConsumerConnection {
 
-    @Autowired
-    private MyConsumer myConsumer;
-
     private Connection connection;
 
     public static final Logger logger = Logger.getLogger(ConsumerConnection.class);
-    private Channel channel;
 
+    /**
+     *  {@code @PostConstruct} 是 {@code @Service} 初始化方法
+     *  但是执行两次原因尚不清楚
+     */
     @PostConstruct
     public void init() {
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -43,37 +43,21 @@ public class ConsumerConnection {
             e.printStackTrace();
         }
         logger.info("RabbitMQ消费者初始化完成！");
-        getChannelMessageAuto();
+        // 初始化成功后还是进行与MQ服务器的连接
+    }
+
+
+    @Bean(name = "connection")
+    public Connection getConnection(){
+        return connection;
     }
 
     /**
-     * 获取信道
-     *
-     * @return
+     *  获取现有消息列表
+     *  存在本地的List
+     * @return 消息列表，叠加
      */
-//    @Scheduled(fixedRate = 60000)
-//    @Async
-    public void getChannelMessageAuto() {
-        channel = null;
-        try {
-            channel = connection.createChannel();
-            channel.basicQos(64);
-            channel.basicConsume(MQConfig.QUEUE_NAME,myConsumer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        logger.info("RabbitMQ消费者获取1个信道，开始监听");
-
-//        ConsumerConfig consumerConfig = new ConsumerConfig(channel);
-//        consumerConfig.getConsumerMessage();
-    }
-
-    @Bean
-    Channel getChannel(){
-        return channel;
-    }
-
-    public List<String> getChannelMessage(){
+    public List<String> getChannelMessage() {
         List<String> consumerMessageLis = MyConsumer.getConsumerMessageList();
         return consumerMessageLis;
     }
