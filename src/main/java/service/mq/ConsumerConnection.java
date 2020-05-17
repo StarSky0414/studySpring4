@@ -22,6 +22,9 @@ public class ConsumerConnection {
 
     private Connection connection;
 
+    @Autowired
+    private ConnectionFactory connectionFactory;
+
     public static final Logger logger = Logger.getLogger(ConsumerConnection.class);
 
     /**
@@ -30,11 +33,6 @@ public class ConsumerConnection {
      */
     @PostConstruct
     public void init() {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setPort(MQConfig.PORT);
-        connectionFactory.setHost(MQConfig.IP);
-        connectionFactory.setUsername(MQConfig.NAME);
-        connectionFactory.setPassword(MQConfig.PASSWORD);
         try {
             connection = connectionFactory.newConnection();
         } catch (IOException e) {

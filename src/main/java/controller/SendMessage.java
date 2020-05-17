@@ -44,8 +44,6 @@ public class SendMessage {
                 producter.publishMessage(message.getMessageInfo());
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (TimeoutException e) {
-                e.printStackTrace();
             }
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("messageInfo","OK!");
