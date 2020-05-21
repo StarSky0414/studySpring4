@@ -24,7 +24,7 @@ public class ConsumerMessage {
     /**
      * 获取信道
      */
-    @PostConstruct
+//    @PostConstruct
     public void getChannelMessageAuto() {
         try {
             // 创建一个信道

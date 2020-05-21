@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
@@ -20,25 +19,16 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class AlternateExchange {
 
+    @Autowired
+    private MQConfig mqConfig;
 
     @Autowired
     private ConnectionFactory connectionFactory;
 
-    private String AE_EXCHANGE = "ae_exchange";
-    private String AE_QUEUE_NAME = "ae_queue_name";
-    private String AE_ROUTING_KEY = "ae_routing_key";
+    public static final String AE_EXCHANGE = "ae_exchange";
+    public static final String AE_QUEUE_NAME = "ae_queue_name";
+    public static final String AE_ROUTING_KEY = "ae_routing_key";
 
-
-    /**
-     *  设定备用交换器的参数
-     *
-     * @return
-     */
-    public Map<String,Object> getParameter(){
-        HashMap<String, Object> parameter = new HashMap<>();
-        parameter.put("alternate-exchange",AE_EXCHANGE);
-        return parameter;
-    }
 
     @PostConstruct
     public void setProducterConnection() throws IOException, TimeoutException {
